@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Testing the Minesweeper Canvas</title>
+</head>
+<body>
+<p>Canvas below:</p>
+<canvas id="minesweeper" width="650" height="650">Your browser doesn't support the &lt;canvas&gt; element</canvas> <!-- style="border:1px solid #000000;" -->
+<!-- JavaScript below -->
+<script>
+window.onload = function() {
+	var cols = 10; //actually rows, sorry!
+	var rows = 10; //actually columns, sorry!
+	var score = 10;
+	var canvas = document.getElementById("minesweeper");
+	canvas.width = 24+16*rows;
+	canvas.height = 66+16*cols;
+	var ctx = canvas.getContext("2d");
+	ctx.fillStyle = "#C0C0C0"
+	ctx.fillRect(0, 0, canvas.width, canvas.height);
+	function draw(src, x, y) {
+		var sprite = new Image();
+		sprite.src = "sprites/"+src+".png";
+		sprite.onload = () => ctx.drawImage(sprite, x, y);
+	}
+	draw("tl",0,0);
+	draw("tr",13+16*rows,0);
+	draw("bl",0,55+16*cols);
+	draw("br",13+16*rows,55+16*cols);
+	for (let i = 0; i < rows; i++) {
+		draw("t", 13+16*i, 0);
+		draw("m", 13+16*i, 44);
+		draw("b", 13+16*i, 55+16*cols);
+	}
+	for (let i = 0; i < cols; i++) {
+		draw("l", 0, 55+16*i);
+		draw("r", 13+16*rows, 55+16*i);
+	}
+	for (let col = 0; col < cols; col++) {
+		for (let row = 0; row < rows; row++) {
+			draw("unpressed",13+16*row,55+16*col);
+		}
+	}
+	draw("smile",((24+16*rows)/2)-13,15);
+};
+</script>
+</body>
+</html>

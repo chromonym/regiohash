@@ -1,7 +1,7 @@
 # Recreated Regiohashing Tool
 Recreating [Hessophane's Geohashing Minesweeper-Regiohashing tool](https://geohashing.site/geohashing/User:Hessophanes/Regiohashing) which has [since become defunct](http://hessophanes.de/xkcd/xkcdregio.cgi?about) (I think).
 
-That probably doesn't make much sense to anyone who doesn't know what [Geohashing](https://geohashing.site/geohashing/Main_Page) is.
+...that probably doesn't make much sense to anyone who doesn't know what [Geohashing](https://geohashing.site/geohashing/Main_Page) is.
 
 I'm going to be making this in Javascript and... oh, did I mention that I've never properly used Javascript before?
 

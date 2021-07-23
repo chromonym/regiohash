@@ -13,7 +13,7 @@ window.onload = function() {
 	var rows = 3; //actually columns, sorry! Will be removed when map is implemented.
 	var score = 10;
 	var mapid = "AU:SA";
-	fetch('map.txt')
+	fetch('maps.txt')
 		.then(response => response.text())
 		.then(text => console.log(text))
 	var canvas = document.getElementById("minesweeper");

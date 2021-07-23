@@ -16,10 +16,8 @@ window.onload = function() {
 	var mapid = "JP";
 	// Getting maps.txt
 	let response = fetch('maps.txt');
-	if (response.ok) {
-		var txt = response.text();
-		var textByLine = txt.split("\n");
-	}
+	var txt = response.text();
+	var textByLine = txt.split("\n");
 	for (let i = 0; i < textByLine.length; i++) {
 		if (textByLine[i].split(",").length > 2) {
 			console.log(textByLine[i]);

@@ -9,9 +9,13 @@
 <!-- JavaScript below -->
 <script>
 window.onload = function() {
-	var cols = 10; //actually rows, sorry!
-	var rows = 10; //actually columns, sorry!
+	var cols = 10; //actually rows, sorry! Will be removed when map is implemented.
+	var rows = 3; //actually columns, sorry! Will be removed when map is implemented.
 	var score = 10;
+	var mapid = "AU:SA";
+	fetch('map.txt')
+		.then(response => response.text())
+		.then(text => console.log(text))
 	var canvas = document.getElementById("minesweeper");
 	canvas.width = 24+16*rows;
 	canvas.height = 66+16*cols;

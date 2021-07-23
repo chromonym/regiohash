@@ -16,6 +16,11 @@ window.onload = function() {
 	fetch('maps.txt')
 		.then(response => response.text())
 	var textByLine = text.split("\n");
+	for (let i = 0; i < textByLine.length; i++) {
+		if (textByLine[i].split(",").length > 2) {
+			console.log(textByLine[i]);
+		}
+	}
 	console.log(textByLine);
 	var canvas = document.getElementById("minesweeper");
 	canvas.width = 24+16*rows;

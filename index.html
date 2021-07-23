@@ -9,19 +9,24 @@
 <!-- JavaScript below -->
 <script>
 window.onload = function() {
-	var cols = 10; //actually rows, sorry! Will be removed when map is implemented.
-	var rows = 3; //actually columns, sorry! Will be removed when map is implemented.
+	// Values which will be replaced by a form or something and are here for testing
+	var cols = 10;
+	var rows = 3;
 	var score = 10;
 	var mapid = "JP";
-	fetch('maps.txt')
-		.then(response => response.text())
-	var textByLine = text.split("\n");
+	// Getting maps.txt
+	let response = fetch('maps.txt');
+	if (response.ok) {
+		let txt = response.text();
+	}
+	var textByLine = txt.split("\n");
 	for (let i = 0; i < textByLine.length; i++) {
 		if (textByLine[i].split(",").length > 2) {
 			console.log(textByLine[i]);
 		}
 	}
 	console.log(textByLine);
+	// Sorting out the canvas
 	var canvas = document.getElementById("minesweeper");
 	canvas.width = 24+16*rows;
 	canvas.height = 66+16*cols;
@@ -33,6 +38,7 @@ window.onload = function() {
 		sprite.src = "sprites/"+src+".png";
 		sprite.onload = () => ctx.drawImage(sprite, x, y);
 	}
+	// Drawing stuff to the canvas
 	draw("tl",0,0);
 	draw("tr",13+16*rows,0);
 	draw("bl",0,55+16*cols);

@@ -15,7 +15,18 @@ window.onload = function() {
 	var score = 10;
 	var mapid = "JP";
 	// Getting maps.txt
-	let response = await fetch('maps.txt');
+	async function fetchMaps(){
+		try {
+			const response = await fetch('maps.txt');
+			const data = await response.text();
+			return data;
+		} catch (err) {
+			console.error(err);
+		}
+	}
+	txt = fetchMaps();
+	console.log(txt);
+	/*let response = await fetch('maps.txt');
 	var txt = await response.text();
 	var textByLine = txt.split("\n");
 	for (let i = 0; i < textByLine.length; i++) {
@@ -23,7 +34,7 @@ window.onload = function() {
 			console.log(textByLine[i]);
 		}
 	}
-	console.log(textByLine);
+	console.log(textByLine);*/
 	// Sorting out the canvas
 	var canvas = document.getElementById("minesweeper");
 	canvas.width = 24+16*rows;
@@ -36,6 +47,7 @@ window.onload = function() {
 		sprite.src = "sprites/"+src+".png";
 		sprite.onload = () => ctx.drawImage(sprite, x, y);
 	}
+	
 	// Drawing stuff to the canvas
 	draw("tl",0,0);
 	draw("tr",13+16*rows,0);

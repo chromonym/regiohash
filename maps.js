@@ -1,3 +1,4 @@
+var txt = `
 Japan;JP;45;20;122;153;
 oooooooooooooooooo000ooooooooooo
 ooooooooooooooooooo00000oooooooo
@@ -25,7 +26,7 @@ oooooooooooooooooooooooooooooooo
 oooooooooooooooooooooooooooooooo
 oooooooooooooooooooooooooooooooo
 oooooooooooooooooooooo0ooooooooo;
-;Hokkaido;01:JP;45;41;lng-w;lng-e;
+;Hokkaido;01:JP;45;41;139;145;
 oooooooooooooooooo###ooooooooooo
 ooooooooooooooooooo#####oooooooo
 oooooooooooooooooo######oooooooo
@@ -52,3 +53,4 @@ oooooooooooooooooooooooooooooooo
 oooooooooooooooooooooooooooooooo
 oooooooooooooooooooooooooooooooo
 oooooooooooooooooooooo0ooooooooo;
+`

@@ -14,7 +14,7 @@
 var cols = 3;
 var rows = 3;
 var score = 10;
-var mapID = "JP";
+var mapID = "JP:07";
 var lat = "0";
 var lon = "0";
 // Getting the correct map from maps.txt
@@ -109,7 +109,7 @@ window.onload = function() {
 		sprite.onload = () => ctx.drawImage(sprite, x, y);
 	}
 	
-	// Drawing stuff to the canvas
+	// Drawing non-main-area to the canvas
 	draw("tl",0,0);
 	draw("tr",13+16*cols,0);
 	draw("bl",0,55+16*rows);
@@ -123,10 +123,40 @@ window.onload = function() {
 		draw("l", 0, 55+16*i);
 		draw("r", 13+16*cols, 55+16*i);
 	}
+	// drawing main-area stuff to the canvas (including borders)
 	for (let row = 0; row < rows; row++) {
 		for (let col = 0; col < cols; col++) {
 			if (rowMap[row][col] === "0" || rowMap[row][col] === "#") {
 				draw("pressed",13+16*col,55+16*row);
+				if (row !== 0 && col !== 0) {
+					if ((rowMap[row][col] == "0" && rowMap[row-1][col-1] == "#") || (rowMap[row][col] == "#" && rowMap[row-1][col-1] == "0")) {
+						draw("bord/tl",13+16*col,55+16*row);
+					}
+				}
+				if (row !== 0) {
+					if ((rowMap[row][col] == "0" && rowMap[row-1][col] == "#") || (rowMap[row][col] == "#" && rowMap[row-1][col] == "0")) {
+						draw("bord/t",13+16*col,55+16*row);
+					}
+				}
+				if (col !== 0) {
+					if ((rowMap[row][col] == "0" && rowMap[row][col-1] == "#") || (rowMap[row][col] == "#" && rowMap[row][col-1] == "0")) {
+						draw("bord/l",13+16*col,55+16*row);
+					}
+				}
+				/*if (row !== 0 && col !== 0) {
+					if ((rowMap[row][col] === "0" && rowMap[row-1][col] === "#" && rowMap[row][col-1] === "#") || (rowMap[row][col] === "#" && rowMap[row-1][col] === "0" && rowMap[row][col-1] === "0")) { // top and left
+						draw("bord/a",13+16*col,55+16*row);
+					}
+				} else if (true) { // top
+					draw("bord/t",13+16*col,55+16*row);
+				} else if (true) { // left
+					draw("bord/l",13+16*col,55+16*row);
+				} else if (true) { // all 3 corners
+					draw("bord/c",13+16*col,55+16*row);
+				} else if (true) { // top 2 corners
+					draw("bord/tc",13+16*col,55+16*row);
+				} else if (true) { // left 2 corners
+					draw("bord/lc",13+16*col,55+16*row);*/
 			} else {
 				draw("unpressed",13+16*col,55+16*row);
 			}

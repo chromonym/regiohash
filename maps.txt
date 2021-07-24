@@ -1,4 +1,4 @@
-var txt = `
+var txt = `;
 Japan;JP;45;20;122;153;
 oooooooooooooooooo000ooooooooooo
 ooooooooooooooooooo00000oooooooo
@@ -53,4 +53,4 @@ oooooooooooooooooooooooooooooooo
 oooooooooooooooooooooooooooooooo
 oooooooooooooooooooooooooooooooo
 oooooooooooooooooooooo0ooooooooo;
-`
+ ` // the space here is important; don't remove it.

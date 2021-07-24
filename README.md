@@ -9,13 +9,13 @@ I'm going to be making this in Javascript and... oh, did I mention that I've nev
 I've completed:
 - Painstakingly creating sprites
 - Writing code to link the sprites together on a \<canvas>
-  - Not including the numbers at the top
+- Create a similar text-to-map converter to the original
+- Do the numbers at the top
 
 I need to:
-- Create a similar text-to-map converter to the original
 - Create a way to identify what square correlates to what graticule
-- Do the numbers at the top
 - Do the numbers in the map
+- Make the numbers at the top change based on the correct info
 
 Extras:
 - Recreating all the maps that the original had

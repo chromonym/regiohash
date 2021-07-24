@@ -13,7 +13,8 @@
 // Values which will be replaced by a form or something and are here for testing
 var cols = 3;
 var rows = 3;
-var score = 10;
+var score = 0;
+var time = 0;
 var mapID = "JP:05";
 var lat = "0";
 var lon = "0";
@@ -162,6 +163,21 @@ window.onload = function() {
 			}
 		}
 	}
+	// drawing the top-left & top-right numbers
+	function numBlock(num, x, y) {
+		draw("numbers",x,y)
+		draw("num/"+num[0],x+2,y+2);
+		draw("num/"+num[1],x+15,y+2);
+		draw("num/"+num[2],x+28,y+2);
+	}
+	score = String(score).padStart(3, '0');
+	numBlock(score,16,16);
+	if (time) {
+		time = String(time).padStart(3, '0');
+		numBlock(time,canvas.width-55,16);
+	}
+	// numBlock(score,x,y);
+	console.log(score);
 	draw("smile",((24+16*cols)/2)-13,15);
 };
 </script>

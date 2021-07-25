@@ -29,7 +29,6 @@ function getLinkInfo(key,equals) { // very cheaty way to get info submitted by f
 		} else {
 			var start;
 			find = val.search("\\?"+key);
-			console.log(find);
 			if (find === -1) {
 				find = val.search("&"+key);
 			}
@@ -49,7 +48,6 @@ var mapID = getLinkInfo("region",true);
 // Getting the correct map from maps.txt
 var map = ["","","0","2","0","2","\nooo\nooo\nooo"];
 var yes = false;
-console.log(txt);
 var textByTR = txt.split(/;\n[^;o0#]/); //txt is the contents of maps.txt... technically.
 totalLines = 1;
 for (let i = 1; i < textByTR.length; i++) {
@@ -72,35 +70,6 @@ for (let i = 0; i < textBySub.length; i++) {
 }
 console.log(mapList);
 
-/*for (let i = 0; i < textByLine.length; i++) {
-	if (textByLine[i].split(";").length > 2) {
-		let info = textByLine[i].split(";").slice(0,-1);
-		if (mapID.split(":").length === 1) { // is top level region
-			if (mapID === info[0] || mapID === info[1]){ // is valid
-				cols = info[2]-info[3]+3;
-				rows = info[5]-info[4]+3;
-				console.log(textByLine.slice(i+1));
-				map = "e";
-			}
-		} else if (info.length === 7) { // is subregion
-			console.log(info[1]);
-			if (mapID === info[1]) {
-				yes = true;
-			} else if (mapID.split(":")[1] === info[2].split(":")[0] && mapID.split(":")[0] === info[2].split(":")[1]) {
-				yes = true;
-			}
-			if (yes) {
-				if (justSubRegion) {
-					cols = info[3]-info[4]+3;
-					rows = info[6]-info[5]+3;
-					console.log(textByLine.slice(i));
-					map = "e";
-					console.log(info[1]);
-				}
-			}
-		}
-	}
-}*/
 window.onload = function() {
 	var canvas = document.getElementById("minesweeper");
 	var ctx = canvas.getContext("2d");
@@ -150,13 +119,12 @@ window.onload = function() {
 			} else {
 				for (let i = 0; i < mapList.length; i++) {
 					if (mapList[i][0][0] === mapID || mapList[i][0][1] === mapID) {
-						map = mapList[i][0]
+						map = mapList[i][0];
 					}
 				}
 			}
 		}
-		console.log(map)
-		var rowMap = map[6].split("\n").slice(1)
+		var rowMap = map[6].split("\n").slice(1);
 		rows = rowMap.length;
 		cols = rowMap[0].length
 		if (map[6] === "\nooo\nooo\nooo"){
@@ -165,7 +133,7 @@ window.onload = function() {
 		// Sorting out the canvas
 		canvas.width = 24+16*cols;
 		canvas.height = 66+16*rows;
-		ctx.fillStyle = "#C0C0C0"
+		ctx.fillStyle = "#C0C0C0";
 		ctx.fillRect(0, 0, canvas.width, canvas.height);
 		
 		// Drawing non-main-area to the canvas
@@ -235,7 +203,6 @@ window.onload = function() {
 			numBlock(time,canvas.width-55,16);
 		}
 		// numBlock(score,x,y);
-		console.log(score);
 		draw("smile",((24+16*cols)/2)-13,15);
 	}
 };

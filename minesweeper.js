@@ -8,6 +8,39 @@ var time = 0;
 var mapID = "JP:05";
 var lat = "0";
 var lon = "0";
+// Getting info from the hyperlink (after the ? but before the &)
+var val=document.URL;
+function getLinkInfo(key,equals) {
+	if (equals) {
+		var start;
+		start = val.search(key+"=");
+		var end;
+		end = val.split(key+"=")[1].search("&");
+		if (start != -1) {
+			var thispos = val.substring(start+key.length+1);
+			if (end != -1) {
+				thispos = thispos.slice(0,end);
+			}
+			return thispos;
+		} else {
+			return undefined;
+		}
+	} else {
+		var start;
+		find = val.search("\\?"+key);
+		console.log(find);
+		if (find === -1) {
+			find = val.search("&"+key);
+		}
+		console.log(find);
+		if (find === -1) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+}
+console.log(getLinkInfo("hello",false));
 // Getting the correct map from maps.txt
 var map = ["","","0","2","0","2","\nooo\nooo\nooo"];
 var yes = false;

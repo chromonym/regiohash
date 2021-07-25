@@ -5,42 +5,46 @@ var cols = 3;
 var rows = 3;
 var score = 0;
 var time = 0;
-var mapID = "JP:05";
 var lat = "0";
 var lon = "0";
 // Getting info from the hyperlink (after the ? but before the &)
 var val=document.URL;
-function getLinkInfo(key,equals) {
-	if (equals) {
-		var start;
-		start = val.search(key+"=");
-		var end;
-		end = val.split(key+"=")[1].search("&");
-		if (start != -1) {
-			var thispos = val.substring(start+key.length+1);
-			if (end != -1) {
-				thispos = thispos.slice(0,end);
+function getLinkInfo(key,equals) { // very cheaty way to get info submitted by form (after ?)
+	try {
+		if (equals) {
+			var start;
+			start = val.search(key+"=");
+			var end;
+			end = val.split(key+"=")[1].search("&");
+			if (start != -1) {
+				var thispos = val.substring(start+key.length+1);
+				if (end != -1) {
+					thispos = thispos.slice(0,end);
+				}
+				return thispos;
+			} else {
+				return undefined;
 			}
-			return thispos;
 		} else {
-			return undefined;
+			var start;
+			find = val.search("\\?"+key);
+			console.log(find);
+			if (find === -1) {
+				find = val.search("&"+key);
+			}
+			if (find === -1) {
+				return false;
+			} else {
+				return true;
+			}
 		}
-	} else {
-		var start;
-		find = val.search("\\?"+key);
-		console.log(find);
-		if (find === -1) {
-			find = val.search("&"+key);
-		}
-		console.log(find);
-		if (find === -1) {
-			return false;
-		} else {
-			return true;
-		}
+	} catch(err) {
+		return undefined;
 	}
 }
-console.log(getLinkInfo("hello",false));
+// Variables based on above function
+var mapID = getLinkInfo("region",true);
+// Checking if ABOUT is true
 // Getting the correct map from maps.txt
 var map = ["","","0","2","0","2","\nooo\nooo\nooo"];
 var yes = false;
@@ -98,18 +102,20 @@ console.log(mapList);
 }*/
 window.onload = function() {
 	// Finding which map it is and behaving accordingly
-	if (mapID.split(":").length > 1) {
-		for (let i = 0; i < mapList.length; i++) {
-			for (let j = 1; j < mapList[i].length; j++) {
-				if (mapList[i][0][0]+":"+mapList[i][j][0] === mapID || mapList[i][0][1]+":"+(mapList[i][j][1].split(":")[0]) === mapID) {
-					map = mapList[i][j];
+	if (mapID) {
+		if (mapID.split(":").length > 1) {
+			for (let i = 0; i < mapList.length; i++) {
+				for (let j = 1; j < mapList[i].length; j++) {
+					if (mapList[i][0][0]+":"+mapList[i][j][0] === mapID || mapList[i][0][1]+":"+(mapList[i][j][1].split(":")[0]) === mapID) {
+						map = mapList[i][j];
+					}
 				}
 			}
-		}
-	} else {
-		for (let i = 0; i < mapList.length; i++) {
-			if (mapList[i][0][0] === mapID || mapList[i][0][1] === mapID) {
-				map = mapList[i][0]
+		} else {
+			for (let i = 0; i < mapList.length; i++) {
+				if (mapList[i][0][0] === mapID || mapList[i][0][1] === mapID) {
+					map = mapList[i][0]
+				}
 			}
 		}
 	}

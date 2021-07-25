@@ -73,7 +73,7 @@ console.log(mapList);
 window.onload = function() {
 	var canvas = document.getElementById("minesweeper");
 	var ctx = canvas.getContext("2d");
-	var about = document.getElementById("about");
+	var about = document.getElementById("pre-canvas");
 	function draw(src, x, y) {
 		var sprite = new Image();
 		sprite.src = "sprites/"+src+".png";

@@ -102,8 +102,12 @@ window.onload = function() {
 			sub += "</td>\n";
 			abt += sub + "</tr>";
 		}
-		abt += "</table>"
+		abt += "</table>\n<p><a href=\"https://github.com/TheXXOs/regiohash\">GitHub page here</a></p>"
 		about.innerHTML = abt;
+	} else if (getLinkInfo("help")) {
+		about.innerHTML = `<h2>How to use:</h2>
+<a href="https://thexxos.github.io/regiohash/README.md">GitHub README</a><br/>
+<a href="https://geohashing.site/geohashing/User:XXOs/Regiohashing">Geohashing Wiki Page (does not work yet)</a>`;
 	} else {
 		// Finding which map it is and behaving accordingly
 		about.innerHTML = "<h2>Canvas below:</h2>";

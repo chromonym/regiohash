@@ -42,6 +42,17 @@ function getLinkInfo(key,equals) { // very cheaty way to get info submitted by f
 		return undefined;
 	}
 }
+function pairwise(arr){
+	let outarr = [];
+	try {
+		for(var i=0; i < arr.length - 1; i+=2){
+			outarr.push(arr[i]+", "+arr[i+1]);
+		}
+		return outarr;
+	} catch (err) {
+		return outarr;
+	}
+}
 // Variables based on above function
 var mapID = getLinkInfo("region",true);
 // Checking if ABOUT is true
@@ -74,10 +85,77 @@ window.onload = function() {
 	var canvas = document.getElementById("minesweeper");
 	var ctx = canvas.getContext("2d");
 	var about = document.getElementById("pre-canvas");
+	
+	//Remove this when done
+	var home = "-35, 138"
+	var hashes = ["-34","138","-35","138","36","139"];
+	//Remove this when done
+
+	pHashes = pairwise(hashes);
+	
 	function draw(src, x, y) {
 		var sprite = new Image();
 		sprite.src = "sprites/"+src+".png";
 		sprite.onload = () => ctx.drawImage(sprite, x, y);
+	}
+	function getCoords(x,y,map,rws,cls) {
+		x += 1
+		y += 1
+		// turns lat & long (as strings) to [row,col] of map
+		// well, that's what it *did*; now it needs to do the reverse.
+		var rx;
+		var ry;
+		if (map[2][0] === "-" || x > Math.abs(parseInt(map[2]))) {
+			rx = (rws-x + parseInt(map[3])).toString();
+		} else {
+			rx = (parseInt(map[2])-x+1).toString();
+		}
+		console.log("==========");
+		if (map[5][0] === "-" || y > Math.abs(parseInt(map[5]))) {
+			ry = (Math.abs(parseInt(map[4]) - y)).toString();
+		} else {
+			ry = (parseInt(map[5])-cls+y).toString();
+		}
+		return rx + ", " + ry;
+		/*if (lat[0] === "-") {
+			if (map[3][0] === "-") {
+				ry = rows - (parseInt(map[3].slice(1)) - parseInt(lat.slice(1)) +1);
+				if (ry < 0 || ry >= rows) {
+					return undefined;
+				}
+			} else {
+				return undefined;
+			}
+		} else {
+			if (map[2][0] != "-") {
+				ry = parseInt(map[2]) - parseInt(lat) -1;
+				if (ry < 0 || ry >= rows) {
+					return undefined;
+				}
+			} else {
+				return undefined;
+			}
+		}
+		if (lon[0] === "-") {
+			if (map[4][0] === "-") {
+				rx = parseInt(map[4].slice(1)) - parseInt(lon.slice(1)) -1;
+				if (rx < 0) {
+					return undefined;
+				}
+			} else {
+				return undefined;
+			}
+		} else {
+			if (map[5][0] != "-") {
+				console.log(map[5]+", "+lon);
+				rx = cols - (parseInt(map[5]) - parseInt(lon) +1);
+				if (rx < 0) {
+					return undefined;
+				}
+			} else {
+				return undefined;
+			}
+		}*/
 	}
 	if (getLinkInfo("version")) {
 		canvas.width = 13*VERSION.length
@@ -130,7 +208,7 @@ window.onload = function() {
 		}
 		var rowMap = map[6].split("\n").slice(1);
 		rows = rowMap.length;
-		cols = rowMap[0].length
+		cols = rowMap[0].length;
 		if (map[6] === "\nooo\nooo\nooo"){
 			alert("The region code is incorrect.");
 		}
@@ -158,7 +236,16 @@ window.onload = function() {
 		for (let row = 0; row < rows; row++) {
 			for (let col = 0; col < cols; col++) {
 				if (rowMap[row][col] === "0" || rowMap[row][col] === "#") {
-					draw("pressed",13+16*col,55+16*row);
+					let latlong = getCoords(row,col,map,rows,cols);
+					if (pHashes.includes(latlong)) {
+						if (home === latlong) {
+							draw("home",13+16*col,55+16*row);
+						} else {
+							draw("flag",13+16*col,55+16*row);
+						}
+					} else {
+						draw("pressed",13+16*col,55+16*row);
+					}
 					if (row !== 0 && col !== 0) {
 						if ((rowMap[row][col] == "0" && rowMap[row-1][col-1] == "#") || (rowMap[row][col] == "#" && rowMap[row-1][col-1] == "0")) {
 							draw("bord/tl",13+16*col,55+16*row);

@@ -149,7 +149,7 @@ window.onload = function() {
 	} else if (getLinkInfo("help",false)) {
 		about.innerHTML = `<h2>How to use:</h2>
 <a href="https://thexxos.github.io/regiohash/README.md">GitHub README</a><br/>
-<a href="https://geohashing.site/geohashing/User:XXOs/Regiohashing">Geohashing Wiki Page (does not work yet)</a>`;
+<a href="https://geohashing.site/geohashing/User:XXOs/Regiohashing">Geohashing Wiki Page</a>`;
 	} else {
 		// Finding which map it is and behaving accordingly
 		about.innerHTML = "<h2>Canvas below:</h2>";

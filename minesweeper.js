@@ -6,8 +6,6 @@ var cols = 3;
 var rows = 3;
 var score = 0;
 var time = 0;
-var lat = "0";
-var lon = "0";
 // Getting info from the hyperlink (after the ? but before the &)
 var val=document.URL;
 function getLinkInfo(key,equals) { // very cheaty way to get info submitted by form (after ?)
@@ -85,79 +83,45 @@ window.onload = function() {
 	var canvas = document.getElementById("minesweeper");
 	var ctx = canvas.getContext("2d");
 	var about = document.getElementById("pre-canvas");
-	
-	//Remove this when done
-	var home = "-35, 138"
-	var hashes = ["-34","138","-35","138","36","139"];
-	//Remove this when done
-
-	pHashes = pairwise(hashes);
+	try {
+		var hashes = pairwise(getLinkInfo("visited",true).split("."));
+	} catch (err) {
+		var hashes = [];
+	}
+	try {
+		var home = pairwise(getLinkInfo("home",true).split("."))[0];
+	} catch (err) {
+		var home = "";
+	}
 	
 	function draw(src, x, y) {
 		var sprite = new Image();
 		sprite.src = "sprites/"+src+".png";
 		sprite.onload = () => ctx.drawImage(sprite, x, y);
 	}
-	function getCoords(x,y,map,rws,cls) {
-		x += 1
-		y += 1
-		// turns lat & long (as strings) to [row,col] of map
-		// well, that's what it *did*; now it needs to do the reverse.
-		var rx;
-		var ry;
-		if (map[2][0] === "-" || x > Math.abs(parseInt(map[2]))) {
-			rx = (rws-x + parseInt(map[3])).toString();
+	function getCoords(row,col,map) {
+		// This function took me W A Y too long to write.
+		var alat;
+		var alon;
+		var mr = parseInt(map[2]);
+		var mc = parseInt(map[4]);
+		if (map[2][0] !== "-" && row === mr+1) {
+			alat = "-0";
+		} else if (map[2][0] !== "-" && row > mr+1) {
+			alat = (mr-row-1).toString();
 		} else {
-			rx = (parseInt(map[2])-x+1).toString();
+			alat = (mr-row).toString();
 		}
-		console.log("==========");
-		if (map[5][0] === "-" || y > Math.abs(parseInt(map[5]))) {
-			ry = (Math.abs(parseInt(map[4]) - y)).toString();
+		if (map[4][0] === "-" && col === Math.abs(mc)) {
+			alon = "-0";
+		} else if (map[4][0] === "-" && col > Math.abs(mc)) {
+			alon = (mc+col-1).toString();
 		} else {
-			ry = (parseInt(map[5])-cls+y).toString();
+			alon = (mc+col).toString();
 		}
-		return rx + ", " + ry;
-		/*if (lat[0] === "-") {
-			if (map[3][0] === "-") {
-				ry = rows - (parseInt(map[3].slice(1)) - parseInt(lat.slice(1)) +1);
-				if (ry < 0 || ry >= rows) {
-					return undefined;
-				}
-			} else {
-				return undefined;
-			}
-		} else {
-			if (map[2][0] != "-") {
-				ry = parseInt(map[2]) - parseInt(lat) -1;
-				if (ry < 0 || ry >= rows) {
-					return undefined;
-				}
-			} else {
-				return undefined;
-			}
-		}
-		if (lon[0] === "-") {
-			if (map[4][0] === "-") {
-				rx = parseInt(map[4].slice(1)) - parseInt(lon.slice(1)) -1;
-				if (rx < 0) {
-					return undefined;
-				}
-			} else {
-				return undefined;
-			}
-		} else {
-			if (map[5][0] != "-") {
-				console.log(map[5]+", "+lon);
-				rx = cols - (parseInt(map[5]) - parseInt(lon) +1);
-				if (rx < 0) {
-					return undefined;
-				}
-			} else {
-				return undefined;
-			}
-		}*/
+		return alat + ", " + alon;
 	}
-	if (getLinkInfo("version")) {
+	if (getLinkInfo("version",false)) {
 		canvas.width = 13*VERSION.length
 		canvas.height = 23
 		ctx.fillStyle = "#000000"
@@ -166,7 +130,7 @@ window.onload = function() {
 		for (let i = 0; i < VERSION.length; i++) {
 			draw("num/"+VERSION[i],1+13*i,1);
 		}
-	} else if (getLinkInfo("about")) {
+	} else if (getLinkInfo("about",false)) {
 		var abt = "<h2>All regions available:</h2>\n<table>\n<tr>\n<th>Region</th>\n<th>Subregion</th>\n</tr>\n"
 		for (let i = 0; i < mapList.length; i++) {
 			var sub = "<td>";
@@ -182,7 +146,7 @@ window.onload = function() {
 		}
 		abt += "</table>\n<p><a href=\"https://github.com/TheXXOs/regiohash\">GitHub page here</a></p>"
 		about.innerHTML = abt;
-	} else if (getLinkInfo("help")) {
+	} else if (getLinkInfo("help",false)) {
 		about.innerHTML = `<h2>How to use:</h2>
 <a href="https://thexxos.github.io/regiohash/README.md">GitHub README</a><br/>
 <a href="https://geohashing.site/geohashing/User:XXOs/Regiohashing">Geohashing Wiki Page (does not work yet)</a>`;
@@ -232,19 +196,30 @@ window.onload = function() {
 			draw("l", 0, 55+16*i);
 			draw("r", 13+16*cols, 55+16*i);
 		}
-		// drawing main-area stuff to the canvas (including borders)
+		// drawing main-area stuff to the canvas (including the yellow border)
+		var eight = [[1,1],[1,0],[1,-1],[0,1],[0,-1],[-1,1],[-1,0],[-1,-1]];
 		for (let row = 0; row < rows; row++) {
 			for (let col = 0; col < cols; col++) {
 				if (rowMap[row][col] === "0" || rowMap[row][col] === "#") {
-					let latlong = getCoords(row,col,map,rows,cols);
-					if (pHashes.includes(latlong)) {
+					let latlong = getCoords(row,col,map);
+					if (hashes.includes(latlong)) {
 						if (home === latlong) {
 							draw("home",13+16*col,55+16*row);
 						} else {
 							draw("flag",13+16*col,55+16*row);
 						}
 					} else {
-						draw("pressed",13+16*col,55+16*row);
+						var count = 0;
+						for (let i = 0; i < 8; i++) {
+							if (hashes.includes(getCoords(row+eight[i][0],col+eight[i][1],map))) {
+								count += 1
+							}
+						}
+						if (count == 0) {
+							draw("pressed",13+16*col,55+16*row);
+						} else {
+							draw(count.toString(),13+16*col,55+16*row);
+						}
 					}
 					if (row !== 0 && col !== 0) {
 						if ((rowMap[row][col] == "0" && rowMap[row-1][col-1] == "#") || (rowMap[row][col] == "#" && rowMap[row-1][col-1] == "0")) {
@@ -261,20 +236,6 @@ window.onload = function() {
 							draw("bord/l",13+16*col,55+16*row);
 						}
 					}
-					/*if (row !== 0 && col !== 0) {
-						if ((rowMap[row][col] === "0" && rowMap[row-1][col] === "#" && rowMap[row][col-1] === "#") || (rowMap[row][col] === "#" && rowMap[row-1][col] === "0" && rowMap[row][col-1] === "0")) { // top and left
-							draw("bord/a",13+16*col,55+16*row);
-						}
-					} else if (true) { // top
-						draw("bord/t",13+16*col,55+16*row);
-					} else if (true) { // left
-						draw("bord/l",13+16*col,55+16*row);
-					} else if (true) { // all 3 corners
-						draw("bord/c",13+16*col,55+16*row);
-					} else if (true) { // top 2 corners
-						draw("bord/tc",13+16*col,55+16*row);
-					} else if (true) { // left 2 corners
-						draw("bord/lc",13+16*col,55+16*row);*/
 				} else {
 					draw("unpressed",13+16*col,55+16*row);
 				}

@@ -13,12 +13,13 @@ I've completed:
 - Add the numbers at the top
 - Create a way to identify what square correlates to what graticule
 - Do the numbers in the map
+- Make the numbers at the top change based on the correct info
 
 I need to:
-- Make the numbers at the top change based on the correct info
+- Redo the text-to-map logic to allow for sub-sub-(etc)-regions
 - Tidy up (or redo) this README when I'm done
 
 Extras:
 - Recreating all the maps that the original had
-- Giving it the capability to check a user page for an a/s/g tag
+- Giving it the capability to check a user page for an a/s/g tag and geohash links
 - Overall just getting it to the standard that the original was

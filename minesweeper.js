@@ -1,7 +1,7 @@
 // This is the main code, which I have put into a separate file because Github
 // The version number is as follows (use dashes instead of dots, and use semver (M.m.b). Don't use letters.
 const VERSION = "0-0-0";
-// Values which will be replaced by a form or something and are here for testing
+// defining defaults for variables
 var cols = 3;
 var rows = 3;
 var score = 0;
@@ -210,6 +210,7 @@ window.onload = function() {
 						}
 					} else {
 						var count = 0;
+						score += 1;
 						for (let i = 0; i < 8; i++) {
 							try {
 								if (hashes.includes(getCoords(row+eight[i][0],col+eight[i][1],map)) && rowMap[row+eight[i][0]][col+eight[i][1]] !== "o") {
@@ -249,16 +250,22 @@ window.onload = function() {
 		}
 		// drawing the top-left & top-right numbers
 		function numBlock(num, x, y) {
-			draw("numbers",x,y)
+			draw("numbers",x,y);
 			draw("num/"+num[0],x+2,y+2);
 			draw("num/"+num[1],x+15,y+2);
 			draw("num/"+num[2],x+28,y+2);
 		}
 		score = String(score).padStart(3, '0');
 		numBlock(score,16,16);
-		if (time) {
-			time = String(time).padStart(3, '0');
-			numBlock(time,canvas.width-55,16);
+		startDate = getLinkInfo("started",true);
+		if (startDate) {
+			try {
+				var startD = new Date(startDate);
+				var endD = new Date();
+				time = Math.round((endD.getTime() - startD.getTime()) / (1000 * 3600 * 24));
+				time = String(time).padStart(3, '0');
+				numBlock(time,canvas.width-55,16);
+			} catch (err) {}
 		}
 		// numBlock(score,x,y);
 		draw("smile",((24+16*cols)/2)-13,15);

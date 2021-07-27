@@ -211,9 +211,11 @@ window.onload = function() {
 					} else {
 						var count = 0;
 						for (let i = 0; i < 8; i++) {
-							if (hashes.includes(getCoords(row+eight[i][0],col+eight[i][1],map))) {
-								count += 1
-							}
+							try {
+								if (hashes.includes(getCoords(row+eight[i][0],col+eight[i][1],map)) && rowMap[row+eight[i][0]][col+eight[i][1]] !== "o") {
+									count += 1
+								}
+							} catch (err) {}
 						}
 						if (count == 0) {
 							draw("pressed",13+16*col,55+16*row);
@@ -221,23 +223,27 @@ window.onload = function() {
 							draw(count.toString(),13+16*col,55+16*row);
 						}
 					}
-					if (row !== 0 && col !== 0) {
-						if ((rowMap[row][col] == "0" && rowMap[row-1][col-1] == "#") || (rowMap[row][col] == "#" && rowMap[row-1][col-1] == "0")) {
-							draw("bord/tl",13+16*col,55+16*row);
-						}
-					}
-					if (row !== 0) {
-						if ((rowMap[row][col] == "0" && rowMap[row-1][col] == "#") || (rowMap[row][col] == "#" && rowMap[row-1][col] == "0")) {
-							draw("bord/t",13+16*col,55+16*row);
-						}
-					}
-					if (col !== 0) {
-						if ((rowMap[row][col] == "0" && rowMap[row][col-1] == "#") || (rowMap[row][col] == "#" && rowMap[row][col-1] == "0")) {
-							draw("bord/l",13+16*col,55+16*row);
-						}
-					}
 				} else {
 					draw("unpressed",13+16*col,55+16*row);
+				}
+			}
+		}
+		for (let row = 0; row < rows; row++) {
+			for (let col = 0; col < cols; col++) {
+				if (row !== 0 && col !== 0) {
+					if ((rowMap[row][col] == "0" && rowMap[row-1][col-1] == "#") || (rowMap[row][col] == "#" && rowMap[row-1][col-1] == "0")) {
+						draw("bord/tl",13+16*col,55+16*row);
+					}
+				}
+				if (row !== 0) {
+					if ((rowMap[row][col] == "0" && rowMap[row-1][col] == "#") || (rowMap[row][col] == "#" && rowMap[row-1][col] == "0")) {
+						draw("bord/t",13+16*col,55+16*row);
+					}
+				}
+				if (col !== 0) {
+					if ((rowMap[row][col] == "0" && rowMap[row][col-1] == "#") || (rowMap[row][col] == "#" && rowMap[row][col-1] == "0")) {
+						draw("bord/l",13+16*col,55+16*row);
+					}
 				}
 			}
 		}

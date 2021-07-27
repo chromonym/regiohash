@@ -1,6 +1,6 @@
 // This is the main code, which I have put into a separate file because Github
 // The version number is as follows (use dashes instead of dots, and use semver (M.m.b). Don't use letters.
-const VERSION = "0-0-0";
+const VERSION = "1-0-0";
 // defining defaults for variables
 var cols = 3;
 var rows = 3;

@@ -10,12 +10,13 @@ I've completed:
 - Painstakingly creating sprites
 - Writing code to link the sprites together on a \<canvas>
 - Create a similar text-to-map converter to the original
-- Do the numbers at the top
-
-I need to:
+- Add the numbers at the top
 - Create a way to identify what square correlates to what graticule
 - Do the numbers in the map
+
+I need to:
 - Make the numbers at the top change based on the correct info
+- Tidy up (or redo) this README when I'm done
 
 Extras:
 - Recreating all the maps that the original had

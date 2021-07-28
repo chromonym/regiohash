@@ -154,18 +154,30 @@ window.onload = function() {
 		// Finding which map it is and behaving accordingly
 		about.innerHTML = "<h2>Canvas below:</h2>";
 		if (mapID) {
-			if (mapID.split(":").length > 1) {
-				for (let i = 0; i < mapList.length; i++) {
-					for (let j = 1; j < mapList[i].length; j++) {
-						if (mapList[i][0][0]+":"+mapList[i][j][0] === mapID || mapList[i][0][1]+":"+(mapList[i][j][1].split(":")[0]) === mapID) {
-							map = mapList[i][j];
+			if (mapID === "W") {
+				var mapp;
+				for (let i = 0; i < 178; i++) {
+					for (let j = 0; j < 358; j++) {
+						mapp += "0";
+					}
+					mapp += "\n";
+				}
+				mapp = mapp.slice(0,-1);
+				map = ["W","W","89","-89","-179","179",mapp];
+			} else {
+				if (mapID.split(":").length > 1) {
+					for (let i = 0; i < mapList.length; i++) {
+						for (let j = 1; j < mapList[i].length; j++) {
+							if (mapList[i][0][0]+":"+mapList[i][j][0] === mapID || mapList[i][0][1]+":"+(mapList[i][j][1].split(":")[0]) === mapID) {
+								map = mapList[i][j];
+							}
 						}
 					}
-				}
-			} else {
-				for (let i = 0; i < mapList.length; i++) {
-					if (mapList[i][0][0] === mapID || mapList[i][0][1] === mapID) {
-						map = mapList[i][0];
+				} else {
+					for (let i = 0; i < mapList.length; i++) {
+						if (mapList[i][0][0] === mapID || mapList[i][0][1] === mapID) {
+							map = mapList[i][0];
+						}
 					}
 				}
 			}

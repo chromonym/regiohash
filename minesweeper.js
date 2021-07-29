@@ -99,27 +99,58 @@ window.onload = function() {
 		sprite.src = "sprites/"+src+".png";
 		sprite.onload = () => ctx.drawImage(sprite, x, y);
 	}
-	function getCoords(row,col,map) {
+	function getCoords(row,col,north,west) {
 		// This function took me W A Y too long to write.
 		var alat;
 		var alon;
-		var mr = parseInt(map[2]);
-		var mc = parseInt(map[4]);
-		if (map[2][0] !== "-" && row === mr+1) {
+		var mr = parseInt(north); // map[2]
+		var mc = parseInt(west); // map[4]
+		if (north[0] !== "-" && row === mr+1) {
 			alat = "-0";
-		} else if (map[2][0] !== "-" && row > mr+1) {
+		} else if (north[0] !== "-" && row > mr+1) {
 			alat = (mr-row-1).toString();
 		} else {
 			alat = (mr-row).toString();
 		}
-		if (map[4][0] === "-" && col === Math.abs(mc)) {
+		if (west[0] === "-" && col === Math.abs(mc)) {
 			alon = "-0";
-		} else if (map[4][0] === "-" && col > Math.abs(mc)) {
+		} else if (west[0] === "-" && col > Math.abs(mc)) {
 			alon = (mc+col-1).toString();
 		} else {
 			alon = (mc+col).toString();
 		}
 		return alat + ", " + alon;
+	}
+	function getPos(alat,alon,north,west) {
+		var rowa;
+		var cola;
+		var mw = parseInt(west); //map[4]
+		var mn = parseInt(north); //map[2]
+		var mlat = parseInt(alat);
+		var mlon = parseInt(alon);
+		if (north === "0") {
+			if (alat === "0") {
+				rowa = 0;
+			} else {
+				rowa = 1 - mlat;
+			}
+		} else if (north[0] != "-" && alat[0] === "-") {
+			rowa = mn - mlat + 1;
+		} else {
+			rowa = mn - mlat;
+		}
+		if (west === "-0") {
+			if (alon === "0") {
+				cola = 0;
+			} else {
+				cola = mlon + 1;
+			}
+		} else if (west[0] === "-" && alon[0] != "-") {
+			cola = mlon - mw + 1;
+		} else {
+			cola = mlon - mw;
+		}
+		return [rowa,cola];
 	}
 	if (getLinkInfo("version",false)) {
 		canvas.width = 13*VERSION.length
@@ -213,7 +244,7 @@ window.onload = function() {
 		for (let row = 0; row < rows; row++) {
 			for (let col = 0; col < cols; col++) {
 				if (rowMap[row][col] === "0" || rowMap[row][col] === "#") {
-					let latlong = getCoords(row,col,map);
+					let latlong = getCoords(row,col,map[2],map[4]);
 					if (hashes.includes(latlong)) {
 						if (home === latlong) {
 							draw("home",13+16*col,55+16*row);
@@ -225,7 +256,7 @@ window.onload = function() {
 						score += 1;
 						for (let i = 0; i < 8; i++) {
 							try {
-								if (hashes.includes(getCoords(row+eight[i][0],col+eight[i][1],map)) && rowMap[row+eight[i][0]][col+eight[i][1]] !== "o") {
+								if (hashes.includes(getCoords(row+eight[i][0],col+eight[i][1],map[2],map[4])) && rowMap[row+eight[i][0]][col+eight[i][1]] !== "o") {
 									count += 1
 								}
 							} catch (err) {}
@@ -279,7 +310,7 @@ window.onload = function() {
 				numBlock(time,canvas.width-55,16);
 			} catch (err) {}
 		}
-		// numBlock(score,x,y);
+		// draw the smile. This is the last thing drawn, so if it is there, the drawing should be complete.
 		draw("smile",((24+16*cols)/2)-13,15);
 	}
 };

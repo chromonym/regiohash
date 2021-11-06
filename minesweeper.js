@@ -56,6 +56,7 @@ var mapID = getLinkInfo("region",true);
 // Checking if ABOUT is true
 // Getting the correct map from maps.txt
 var map = ["","","0","2","0","2","\nooo\nooo\nooo"];
+//var smallMap = undefined;
 var yes = false;
 var textByTR = txt.split(/;\n[^;o0#]/); //txt is the contents of maps.txt... technically.
 totalLines = 1;
@@ -77,6 +78,27 @@ for (let i = 0; i < textBySub.length; i++) {
 	}
 	mapList.push(ml);
 }
+/*var textByLine = txt.split("\n").slice(1,-1);
+for (let i = 0; i < textByLine.length; i++) {
+	if (i < textByLine.length-1) {
+		if ((textByLine[i][0] === "0" || textByLine[i][0] === "#" || textByLine[i][0] === "o") && textByLine[i][-1] !== ";") {
+			let j = i+1;
+			let stopp = false;
+			while (!stopp) {
+				if (textByLine[j][-1] === ";") {
+					console.log("stopping");
+					stopp = true;
+				}
+				console.log(textByLine[j][-1]);
+				textByLine[i] = textByLine[i] + "\n" + textByLine[j];
+				//console.log(textByLine[i]+"\n======");
+				textByLine.splice(j,1);
+			}
+			//console.log(i);
+		}
+	}
+}*/
+//console.log(textByLine);
 console.log(mapList);
 
 window.onload = function() {
@@ -152,6 +174,11 @@ window.onload = function() {
 		}
 		return [rowa,cola];
 	}
+	/*function searchMap(mapCode,searchLevel=[],large="") {
+		for (let i = 0; i < mapList.length; i++) {
+			console.log("this func is incomplete"); // this func is incomplete
+		}
+	}*/
 	if (getLinkInfo("version",false)) {
 		canvas.width = 13*VERSION.length
 		canvas.height = 23
@@ -210,7 +237,7 @@ window.onload = function() {
 							map = mapList[i][0];
 						}
 					}
-				}
+				} //*/
 			}
 		}
 		var rowMap = map[6].split("\n").slice(1);

@@ -1,4 +1,4 @@
-var txt = `;
+﻿var txt = `;
 Australia;AU;-9;-43;113;153;
 ooooooooooooooooooooooooooooo0ooooooooooo
 ooooooooooooooooooo00ooooooo000oooooooooo

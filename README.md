@@ -16,10 +16,10 @@ I've completed:
 - Make the numbers at the top change based on the correct info
 
 I need to:
-- Redo the text-to-map logic to allow for sub-sub-(etc)-regions
-- Tidy up (or redo) this README when I'm done
-
-Extras:
+- Tidy up (or redo) this README and the [documentation at geohashing.site](https://geohashing.site/geohashing/User:XXOs/Regiohashing)
 - Recreating all the maps that the original had
 - Giving it the capability to check a user page for an a/s/g tag and geohash links
 - Overall just getting it to the standard that the original was
+
+Eventually I might do a rewrite in Flask or something, which will include:
+- Redoing the text-to-map logic to allow for sub-sub-(etc)-regions

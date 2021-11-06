@@ -1,6 +1,6 @@
 // This is the main code, which I have put into a separate file because Github
 // The version number is as follows (use dashes instead of dots, and use semver (M.m.b). Don't use letters.
-const VERSION = "0-0-1";
+const VERSION = "1-0-0";
 // defining defaults for variables
 var cols = 3;
 var rows = 3;
@@ -210,7 +210,7 @@ window.onload = function() {
 <a href="https://geohashing.site/geohashing/User:XXOs/Regiohashing">Geohashing Wiki Page</a>`;
 	} else {
 		// Finding which map it is and behaving accordingly
-		about.innerHTML = "<h2>Canvas below:</h2>";
+		about.innerHTML = "<h2>Your map:</h2>";
 		if (mapID) {
 			if (mapID === "W") {
 				var mapp;
@@ -280,7 +280,9 @@ window.onload = function() {
 						}
 					} else {
 						var count = 0;
-						score += 1;
+						if (rowMap[row][col] === "#") {
+							score += 1;
+						}
 						for (let i = 0; i < 8; i++) {
 							try {
 								if (hashes.includes(getCoords(row+eight[i][0],col+eight[i][1],map[2],map[4])) && rowMap[row+eight[i][0]][col+eight[i][1]] !== "o") {

@@ -1,6 +1,6 @@
 // This is the main code, which I have put into a separate file because Github
 // The version number is as follows (use dashes instead of dots, and use semver (M.m.b). Don't use letters.
-const VERSION = "1-0-0";
+const VERSION = "1-0-1";
 // defining defaults for variables
 var cols = 3;
 var rows = 3;
@@ -105,6 +105,7 @@ window.onload = function() {
 	var canvas = document.getElementById("minesweeper");
 	var ctx = canvas.getContext("2d");
 	var about = document.getElementById("pre-canvas");
+	var postc = document.getElementById("post-canvas");
 	try {
 		var hashes = pairwise(getLinkInfo("visited",true).split("."));
 	} catch (err) {
@@ -192,9 +193,9 @@ window.onload = function() {
 		var abt = "<h2>All regions available:</h2>\n<table>\n<tr>\n<th>Region</th>\n<th>Subregion</th>\n</tr>\n"
 		for (let i = 0; i < mapList.length; i++) {
 			var sub = "<td>";
-			abt += "<tr>\n<td>"+mapList[i][0][0]+" ("+mapList[i][0][1]+")</td>\n";
+			abt += "<tr>\n<td>"+mapList[i][0][0].replace(/_/g," ")+" ("+mapList[i][0][1]+")</td>\n";
 			for (let j = 1; j < mapList[i].length; j++) {
-				sub += mapList[i][j][0]+" ("+mapList[i][j][1].split(":")[0]+")";
+				sub += mapList[i][j][0].replace(/_/g," ")+" ("+mapList[i][j][1].split(":")[0]+")";
 				if (j != mapList[i].length-1) {
 					sub += ", ";
 				}
@@ -211,6 +212,7 @@ window.onload = function() {
 	} else {
 		// Finding which map it is and behaving accordingly
 		about.innerHTML = "<h2>Your map:</h2>";
+		postc.innerHTML = "<p><i>To download the image, right click > Save image as...</i></p>\n<p><i>If something hasn't shown up properly, reload the page.</i></p>";
 		if (mapID) {
 			if (mapID === "W") {
 				var mapp;
@@ -223,7 +225,7 @@ window.onload = function() {
 				mapp = mapp.slice(0,-1);
 				map = ["W","W","89","-89","-179","179",mapp];
 			} else {
-				if (mapID.split(":").length > 1) {
+				if (mapID.split(":").length > 1) { // second level map
 					for (let i = 0; i < mapList.length; i++) {
 						for (let j = 1; j < mapList[i].length; j++) {
 							if (mapList[i][0][0]+":"+mapList[i][j][0] === mapID || mapList[i][0][1]+":"+(mapList[i][j][1].split(":")[0]) === mapID) {
@@ -231,7 +233,7 @@ window.onload = function() {
 							}
 						}
 					}
-				} else {
+				} else { // top level map
 					for (let i = 0; i < mapList.length; i++) {
 						if (mapList[i][0][0] === mapID || mapList[i][0][1] === mapID) {
 							map = mapList[i][0];
@@ -280,7 +282,7 @@ window.onload = function() {
 						}
 					} else {
 						var count = 0;
-						if (rowMap[row][col] === "#") {
+						if (rowMap[row][col] === "#" || !(map[6].includes("#"))) {
 							score += 1;
 						}
 						for (let i = 0; i < 8; i++) {

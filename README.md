@@ -16,6 +16,7 @@ I've completed:
 - Create a way to identify what square correlates to what graticule
 - Do the numbers in the map
 - Make the numbers at the top change based on the correct info
+- Added vanity features (?blue, ?cherry, etc)
 
 I need to:
 - Tidy up (or redo) this README and the [documentation at geohashing.site](https://geohashing.site/geohashing/User:XXOs/Regiohashing)

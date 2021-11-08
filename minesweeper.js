@@ -183,8 +183,12 @@ window.onload = function() {
 	var cherry = false;
 	var blue = false;
 	var sung = false;
+	var chpress = false;
 	if (getLinkInfo("cherry",false)) {
 		cherry = true;
+		if (getLinkInfo("press",false)) {
+			chpress = true;
+		}
 	}
 	if (getLinkInfo("blue",false)) {
 		blue = true;
@@ -287,10 +291,14 @@ window.onload = function() {
 				if (rowMap[row][col] === "0" || rowMap[row][col] === "#") {
 					let latlong = getCoords(row,col,map[2],map[4]);
 					if (hashes.includes(latlong)) {
-						if (home === latlong) {
-							draw("home",13+16*col,55+16*row);
+						if (!chpress) {
+							if (home === latlong) {
+								draw("home",13+16*col,55+16*row);
+							} else {
+								draw("flag",13+16*col,55+16*row);
+							}
 						} else {
-							draw("flag",13+16*col,55+16*row);
+							draw("pressed",13+16*col,55+16*row);
 						}
 					} else {
 						if (rowMap[row][col] === "#" || !(map[6].includes("#"))) {

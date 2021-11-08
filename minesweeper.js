@@ -180,6 +180,18 @@ window.onload = function() {
 			console.log("this func is incomplete"); // this func is incomplete
 		}
 	}*/
+	var cherry = false;
+	var blue = false;
+	var sung = false;
+	if (getLinkInfo("cherry",false)) {
+		cherry = true;
+	}
+	if (getLinkInfo("blue",false)) {
+		blue = true;
+	}
+	if (getLinkInfo("sunglasses",false) || getLinkInfo("sun",false) || getLinkInfo("glasses",false)) {
+		sung = true;
+	}
 	if (getLinkInfo("version",false)) {
 		canvas.width = 13*VERSION.length
 		canvas.height = 23
@@ -281,25 +293,37 @@ window.onload = function() {
 							draw("flag",13+16*col,55+16*row);
 						}
 					} else {
-						var count = 0;
 						if (rowMap[row][col] === "#" || !(map[6].includes("#"))) {
 							score += 1;
 						}
-						for (let i = 0; i < 8; i++) {
-							try {
-								if (hashes.includes(getCoords(row+eight[i][0],col+eight[i][1],map[2],map[4])) && rowMap[row+eight[i][0]][col+eight[i][1]] !== "o") {
-									count += 1
+						if (!cherry) {
+							var count = 0;
+							for (let i = 0; i < 8; i++) {
+								try {
+									if (hashes.includes(getCoords(row+eight[i][0],col+eight[i][1],map[2],map[4])) && rowMap[row+eight[i][0]][col+eight[i][1]] !== "o") {
+										count += 1
+									}
+								} catch (err) {}
+							}
+							if (count == 0) {
+								draw("pressed",13+16*col,55+16*row);
+							} else {
+								if (count == 8 && sung) {
+									draw("sun",13+16*col,55+16*row);
+								} else {
+									draw(count.toString(),13+16*col,55+16*row);
 								}
-							} catch (err) {}
-						}
-						if (count == 0) {
-							draw("pressed",13+16*col,55+16*row);
+							}
 						} else {
-							draw(count.toString(),13+16*col,55+16*row);
+							draw("cherry",13+16*col,55+16*row);
 						}
 					}
 				} else {
-					draw("unpressed",13+16*col,55+16*row);
+					if (!blue) {
+						draw("unpressed",13+16*col,55+16*row);
+					} else {
+						draw("blue",13+16*col,55+16*row);
+					}
 				}
 			}
 		}
